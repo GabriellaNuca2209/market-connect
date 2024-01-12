@@ -4,7 +4,9 @@ import com.market.connect.models.ProductCategory;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Data
@@ -39,4 +41,7 @@ public class Product {
 
     @Column(name = "product_description")
     private ProductCategory productDescription;
+
+    @ManyToMany(mappedBy = "products")
+    private List<Order> orders = new ArrayList<>();
 }
