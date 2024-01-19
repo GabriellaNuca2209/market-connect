@@ -5,10 +5,9 @@ import com.market.connect.services.CustomerService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Validated
 @RestController
@@ -24,5 +23,12 @@ public class CustomerController {
     @PostMapping
     public ResponseEntity<CustomerDTO> createCustomer(@Valid @RequestBody CustomerDTO customerDTO) {
         return ResponseEntity.ok(customerService.createCustomer(customerDTO));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<CustomerDTO>> getFilteredCustomers(@RequestParam(required = false) Boolean isActive,
+                                                                  @RequestParam(required = false) String city,
+                                                                  @RequestParam(required = false) String subscription) {
+        return ResponseEntity.ok(customerService.getFilteredCustomers(isActive, city, subscription));
     }
 }

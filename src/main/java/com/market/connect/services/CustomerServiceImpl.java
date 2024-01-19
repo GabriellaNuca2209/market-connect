@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Slf4j
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -34,5 +36,13 @@ public class CustomerServiceImpl implements CustomerService {
         log.info("Customer with id {}, saved in database", savedCustomer.getId());
 
         return modelMapper.map(savedCustomer, CustomerDTO.class);
+    }
+
+    @Override
+    public List<CustomerDTO> getFilteredCustomers(Boolean isActive, String city, String subscription) {
+        List<Customer> customers = customerRepository.findFilteredCustomers(isActive, city, subscription);
+        log.info("Number of customers: " + customers.size());
+
+        return customers.stream().map(customer -> modelMapper.map(customer, CustomerDTO.class)).toList();
     }
 }
